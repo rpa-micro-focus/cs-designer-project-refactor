@@ -1,6 +1,8 @@
 ########################################################################################################################
 #!!
 #! @input action: RENAME_PROPERTY, MOVE_PROPERTY_FILE, MOVE_FLOW, MOVE_FLOWS
+#!
+#! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor._operations

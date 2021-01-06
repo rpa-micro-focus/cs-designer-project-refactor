@@ -28,7 +28,7 @@ operation:
           with open(properties_file, 'w') as json_file:
               json.dump(properties_json, json_file)
       except Exception as e:
-          failure = "%s: %s" % (type(e).__name__, str(e))
+          failure =  ','.join([str(x) for x in sys.exc_info()])
   outputs:
     - failure
     - properties: "${'' if properties is None else str(properties)}"

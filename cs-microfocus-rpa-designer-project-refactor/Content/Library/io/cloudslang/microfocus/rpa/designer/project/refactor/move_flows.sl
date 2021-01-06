@@ -1,6 +1,11 @@
 ########################################################################################################################
 #!!
 #! @description: Renames a folder and moves all flows / operations belonging into it (or any sub-folders of the folder).
+#!
+#! @input old_namespace: Current folder namespace; e.g. io.cloudslang.hpe.oo
+#! @input new_namespace: Wanted folder namespace; e.g. io.cloudslang.microfocus.rpa
+#!
+#! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
@@ -8,10 +13,9 @@ flow:
   name: move_flows
   inputs:
     - session_token:
-        default: '40930'
         required: true
-    - old_namespace: io.cloudslang.microfocus.rpa2
-    - new_namespace: io.cloudslang.microfocus.rpa
+    - old_namespace: io.cloudslang.microfocus.rpa.demo
+    - new_namespace: io.cloudslang.microfocus.rpa.demo2
   workflow:
     - get_session_properties:
         do:
@@ -26,7 +30,7 @@ flow:
         do:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.refactor:
             - action: MOVE_FLOWS
-            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in eval(ws_users)])}"
+            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in ws_users.split(',')])}"
             - old_name: '${old_namespace}'
             - new_name: '${new_namespace}'
         publish:

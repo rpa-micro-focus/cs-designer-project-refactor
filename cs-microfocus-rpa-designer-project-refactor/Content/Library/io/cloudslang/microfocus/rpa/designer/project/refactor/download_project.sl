@@ -1,5 +1,13 @@
 ########################################################################################################################
 #!!
+#! @description: Starts refactoring session or continues in an already started session. It checks out the project of the given user.
+#!
+#! @input session_token: Do no provide anything when starting a new session; type the session token when continuing in an already started session.
+#! @input ws_user: All files from the workspace of this user will be downloaded
+#! @input ws_password: Workspace user password
+#! @input ws_tenant: Which tenant the user belongs to
+#!
+#! @output new_session_token: Returns the given or newly created sesstion token (if a new session has started)
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
@@ -7,9 +15,8 @@ flow:
   name: download_project
   inputs:
     - session_token:
-        default: '40930'
         required: false
-    - ws_user: rpadev
+    - ws_user
     - ws_password:
         required: false
         sensitive: true
@@ -34,16 +41,6 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: get_ws_id
-    - download_projects_files:
-        do:
-          io.cloudslang.microfocus.rpa.designer.project.download_projects_files:
-            - ws_id: '${ws_id}'
-            - folder_path: "${session_folder+'/original'}"
-        publish:
-          - projects_details
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: clone_folder
     - get_ws_id:
         do:
           io.cloudslang.microfocus.rpa.designer.workspace.get_ws_id: []
@@ -78,6 +75,16 @@ flow:
         navigate:
           - SUCCESS: get_token
           - FAILURE: on_failure
+    - download_projects_files:
+        do:
+          io.cloudslang.microfocus.rpa.designer.project.refactor._operations.download_projects_files:
+            - ws_id: '${ws_id}'
+            - folder_path: "${session_folder+'/original'}"
+        publish:
+          - projects_details
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: clone_folder
   outputs:
     - new_session_token: '${session_token}'
   results:
@@ -92,9 +99,6 @@ extensions:
       get_token:
         x: 299
         'y': 89
-      download_projects_files:
-        x: 519
-        'y': 96
       get_ws_id:
         x: 399
         'y': 270
@@ -111,6 +115,9 @@ extensions:
       put_session_properties:
         x: 183
         'y': 263
+      download_projects_files:
+        x: 522
+        'y': 104
     results:
       SUCCESS:
         d18a5abe-cad3-e570-25b6-4495b48a7331:

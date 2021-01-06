@@ -1,16 +1,22 @@
 ########################################################################################################################
 #!!
-#! @description: Moves property file to another namespace.
+#! @description: Moves property file to another namespace (folder).
+#!
+#! @input old_namespace: Current namespace the property file belongs to; e.g. io.cloudslang.hpe.oo
+#! @input new_namespace: Wanted namespace the property file should belong to; e.g. io.cloudslang.microfocus.rpa
+#! @input property_file_name: Name of the property file (including .sl extension)
+#!
+#! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
 flow:
   name: move_property_file
   inputs:
-    - session_token: '40930'
-    - old_namespace: io.cloudslang.microfocus.rpa.designer.project.refactor2
-    - new_namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
-    - property_file_name: refactor.sl
+    - session_token
+    - old_namespace
+    - new_namespace
+    - property_file_name
   workflow:
     - get_session_properties:
         do:
@@ -25,7 +31,7 @@ flow:
         do:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.refactor:
             - action: MOVE_PROPERTY_FILE
-            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in eval(ws_users)])}"
+            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in ws_users.split(',')])}"
             - old_name: '${old_namespace}'
             - new_name: '${new_namespace}'
             - property_file_name: '${property_file_name}'

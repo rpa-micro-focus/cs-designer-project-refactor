@@ -15,7 +15,7 @@ operation:
         default: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/session.properties'}"
   python_action:
     script: |-
-      import json
+      import json, sys
       try:
           failure = ''
           with open(properties_file) as json_file:
@@ -24,9 +24,9 @@ operation:
               except ValueError as te:
                   properties_json = {}
               properties = properties_json.get(session_token, None)
-              ws_users = '' if properties is None else ["'"+x+"'" for x in properties.keys()]
+              ws_users = '' if properties is None else properties.keys()
       except Exception as e:
-          failure = "%s: %s" % (type(e).__name__, str(e))
+          failure =  ','.join([str(x) for x in sys.exc_info()])
   outputs:
     - failure
     - properties: "${'' if properties is None else str(properties)}"

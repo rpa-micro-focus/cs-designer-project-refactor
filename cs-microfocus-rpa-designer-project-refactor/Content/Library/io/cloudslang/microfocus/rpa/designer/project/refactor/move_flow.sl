@@ -4,15 +4,20 @@
 #!               To rename a flow / operation, keep the same namespace.
 #!               To move the flow / operation, change the namespace.
 #!               To do both, rename the flow / operation as well as the namespace.
+#!
+#! @input old_flow_name: Current flow ID (namespace + flow name); e.g. io.cloudslang.hpe.oo.sleep
+#! @input new_flow_name: Wanted flow ID (namespace + flow_name); e.g. io.cloudslang.microfocus.rpa.wait
+#!
+#! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
 flow:
   name: move_flow
   inputs:
-    - session_token: '40930'
-    - old_flow_name: io.cloudslang.microfocus.rpa.demo.deploy_cps2
-    - new_flow_name: io.cloudslang.microfocus.rpa.demo.deploy_cps2
+    - session_token
+    - old_flow_name
+    - new_flow_name
   workflow:
     - get_session_properties:
         do:
@@ -27,7 +32,7 @@ flow:
         do:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.refactor:
             - action: MOVE_FLOW
-            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in eval(ws_users)])}"
+            - project_folders: "${str([get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user+'/workspace' for ws_user in ws_users.split(',')])}"
             - old_name: '${old_flow_name}'
             - new_name: '${new_flow_name}'
         publish:
