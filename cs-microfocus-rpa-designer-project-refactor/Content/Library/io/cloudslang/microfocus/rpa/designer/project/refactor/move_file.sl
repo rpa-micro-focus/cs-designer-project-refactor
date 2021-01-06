@@ -13,7 +13,7 @@
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
 flow:
-  name: move_flow
+  name: move_file
   inputs:
     - session_token
     - old_flow_name
