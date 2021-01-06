@@ -61,7 +61,7 @@ flow:
           - 'FALSE': SUCCESS
     - download_file:
         loop:
-          for: 'file_path,id in eval(files)'
+          for: 'file_path,file_id in eval(files)'
           do:
             io.cloudslang.microfocus.rpa.designer.project.download_file:
               - ws_id: '${ws_id}'

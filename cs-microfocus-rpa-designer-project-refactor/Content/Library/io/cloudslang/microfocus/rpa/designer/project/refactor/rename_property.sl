@@ -6,6 +6,8 @@
 #! @input new_property_name: Wanted property name (e.g. proxy_host)
 #! @input namespace: Namespace the property belongs to; e.g. io.cloudslang.microfocus.rpa
 #! @input property_file_name: Name of the property file (including .sl extension)
+#!
+#! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor

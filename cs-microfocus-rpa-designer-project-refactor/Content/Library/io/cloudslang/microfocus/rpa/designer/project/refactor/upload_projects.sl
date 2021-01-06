@@ -124,39 +124,6 @@ flow:
         navigate:
           - 'TRUE': upload_file
           - 'FALSE': is_files_to_create
-    - create_folder:
-        do:
-          io.cloudslang.microfocus.rpa.designer.project.create_element:
-            - token: '${token}'
-            - element_name: "${folder.split('/')[-1]}"
-            - element_type: FOLDER
-            - folder_id: "${eval(projects_files)[0].get('folders').get(folder[0:folder.rfind('/')]).split(':')[1]}"
-        publish:
-          - element_id
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: add_folder_record
-    - add_folder_record:
-        do:
-          io.cloudslang.microfocus.rpa.designer.project.refactor._operations.add_folder_record:
-            - projects_files: '${projects_files}'
-            - folder_path: '${folder}'
-            - folder_id: '${element_id}'
-        publish:
-          - projects_files: '${new_projects_files}'
-        navigate:
-          - SUCCESS: loop_created_folders
-          - FAILURE: on_failure
-    - loop_created_folders:
-        do:
-          io.cloudslang.base.lists.list_iterator:
-            - list: '${created_folders}'
-        publish:
-          - folder: '${result_string}'
-        navigate:
-          - HAS_MORE: create_folder
-          - NO_MORE: is_files_to_change
-          - FAILURE: on_failure
     - is_files_to_create:
         do:
           io.cloudslang.base.utils.is_true:
@@ -169,7 +136,7 @@ flow:
           io.cloudslang.base.utils.is_true:
             - bool_value: '${str(len(created_folders)>0)}'
         navigate:
-          - 'TRUE': loop_created_folders
+          - 'TRUE': create_folder_add_record
           - 'FALSE': is_files_to_change
     - create_file:
         loop:
@@ -189,7 +156,7 @@ flow:
           for: folder in deleted_folders
           do:
             io.cloudslang.microfocus.rpa.designer.project.delete_element:
-              - token: token
+              - token: '${token}'
               - element_id: "${eval(projects_files)[0].get('folders').get(folder).split(':')[1]}"
           break:
             - FAILURE
@@ -229,6 +196,21 @@ flow:
         navigate:
           - SUCCESS: SUCCESS
           - FAILURE: on_failure
+    - create_folder_add_record:
+        loop:
+          for: folder in created_folders
+          do:
+            io.cloudslang.microfocus.rpa.designer.project.refactor._operations.create_folder_add_record:
+              - token: '${token}'
+              - folder: '${folder}'
+              - projects_files: '${projects_files}'
+          break:
+            - FAILURE
+          publish:
+            - projects_files: '${new_projects_files}'
+        navigate:
+          - FAILURE: on_failure
+          - SUCCESS: is_files_to_change
   results:
     - FAILURE
     - SUCCESS
@@ -246,15 +228,12 @@ extensions:
         'y': 338
       get_projects:
         x: 716
-        'y': 204
-      add_folder_record:
-        x: 379
-        'y': 581
+        'y': 208
       get_session_properties:
-        x: 25
-        'y': 197
+        x: 22
+        'y': 205
       logout:
-        x: 83
+        x: 92
         'y': 339
       delete:
         x: 632
@@ -264,8 +243,8 @@ extensions:
             targetId: 44e88453-9627-7953-988b-05eb59d64832
             port: SUCCESS
       loop_users:
-        x: 196
-        'y': 208
+        x: 225
+        'y': 203
       delete_session_properties:
         x: 819
         'y': 92
@@ -276,24 +255,18 @@ extensions:
         x: 384
         'y': 209
       is_keep_session:
-        x: 118
+        x: 102
         'y': 93
         navigate:
           fdf9341b-072b-6cb6-06e3-1939bebeed2b:
             targetId: 44e88453-9627-7953-988b-05eb59d64832
             port: 'TRUE'
-      create_folder:
-        x: 716
-        'y': 579
       is_folders_to_create:
         x: 646
         'y': 338
       is_files_to_delete:
         x: 822
         'y': 337
-      loop_created_folders:
-        x: 547
-        'y': 503
       get_ws_id:
         x: 542
         'y': 209
@@ -304,14 +277,17 @@ extensions:
         x: 467
         'y': 335
       upload_file:
-        x: 277
-        'y': 523
+        x: 468
+        'y': 526
       get_projects_files:
         x: 914
-        'y': 206
+        'y': 207
+      create_folder_add_record:
+        x: 648
+        'y': 526
       create_file:
-        x: 80
-        'y': 521
+        x: 272
+        'y': 528
     results:
       SUCCESS:
         44e88453-9627-7953-988b-05eb59d64832:

@@ -14,8 +14,8 @@ flow:
   inputs:
     - session_token:
         required: true
-    - old_namespace: io.cloudslang.microfocus.rpa.demo
-    - new_namespace: io.cloudslang.microfocus.rpa.demo2
+    - old_namespace
+    - new_namespace
   workflow:
     - get_session_properties:
         do:
