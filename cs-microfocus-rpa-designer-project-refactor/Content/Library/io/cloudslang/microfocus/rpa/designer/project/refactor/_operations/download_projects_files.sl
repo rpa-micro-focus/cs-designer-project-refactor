@@ -43,7 +43,7 @@ flow:
           - folders: "${','.join(eval(projects_files)[0].get('folders').keys())}"
           - files: "${str(eval(projects_files)[0].get('files'))}"
         navigate:
-          - SUCCESS: has_folders
+          - SUCCESS: optimize_folders
           - FAILURE: on_failure
     - has_folders:
         do:
@@ -72,6 +72,15 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: SUCCESS
+    - optimize_folders:
+        do:
+          io.cloudslang.microfocus.rpa.designer.project.refactor._operations.optimize_folders:
+            - folders: '${folders}'
+        publish:
+          - folders: '${optimized_folders}'
+        navigate:
+          - SUCCESS: has_folders
+          - FAILURE: on_failure
   outputs:
     - projects_details: '${projects_details}'
   results:
@@ -88,7 +97,7 @@ extensions:
         'y': 502
       get_projects_files:
         x: 240
-        'y': 80
+        'y': 78
       has_folders:
         x: 35
         'y': 291
@@ -106,8 +115,11 @@ extensions:
           ba19cd5a-39f9-ce89-0031-21d911338fe2:
             targetId: b4dcc687-7981-f39a-78ce-69fc2d360fff
             port: SUCCESS
+      optimize_folders:
+        x: 448
+        'y': 80
     results:
       SUCCESS:
         b4dcc687-7981-f39a-78ce-69fc2d360fff:
-          x: 460
+          x: 446
           'y': 289
