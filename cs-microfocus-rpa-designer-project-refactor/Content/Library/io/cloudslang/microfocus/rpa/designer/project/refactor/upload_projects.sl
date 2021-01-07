@@ -80,7 +80,7 @@ flow:
         do:
           io.cloudslang.microfocus.rpa.designer.authenticate.logout: []
         navigate:
-          - SUCCESS: loop_users
+          - SUCCESS: delete_clone
     - get_projects_files:
         do:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.get_projects_files:
@@ -187,9 +187,9 @@ flow:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.delete_session_properties:
             - session_token: '${session_token}'
         navigate:
-          - SUCCESS: delete
+          - SUCCESS: delete_session_folder
           - FAILURE: on_failure
-    - delete:
+    - delete_session_folder:
         do:
           io.cloudslang.base.filesystem.delete:
             - source: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token}"
@@ -211,6 +211,21 @@ flow:
         navigate:
           - FAILURE: on_failure
           - SUCCESS: is_files_to_change
+    - delete_clone:
+        do:
+          io.cloudslang.base.filesystem.delete:
+            - source: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+\"/\"+ws_user+'/original'}"
+        navigate:
+          - SUCCESS: clone_workspace
+          - FAILURE: on_failure
+    - clone_workspace:
+        do:
+          io.cloudslang.base.filesystem.clone_folder:
+            - existing_folder: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+\"/\"+ws_user+'/workspace'}"
+            - cloned_folder: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+\"/\"+ws_user+'/original'}"
+        navigate:
+          - SUCCESS: loop_users
+          - FAILURE: on_failure
   results:
     - FAILURE
     - SUCCESS
@@ -224,20 +239,23 @@ extensions:
         x: 1008
         'y': 525
       is_files_to_create:
-        x: 276
-        'y': 338
+        x: 261
+        'y': 334
       get_projects:
         x: 716
         'y': 208
       get_session_properties:
-        x: 22
-        'y': 205
+        x: 28
+        'y': 67
+      delete_clone:
+        x: 35
+        'y': 355
       logout:
-        x: 92
-        'y': 339
-      delete:
-        x: 632
-        'y': 20
+        x: 34
+        'y': 526
+      delete_session_folder:
+        x: 633
+        'y': 114
         navigate:
           43647429-d7c7-6b95-8d09-97b916d106c8:
             targetId: 44e88453-9627-7953-988b-05eb59d64832
@@ -246,8 +264,8 @@ extensions:
         x: 225
         'y': 203
       delete_session_properties:
-        x: 819
-        'y': 92
+        x: 790
+        'y': 27
       delete_file:
         x: 821
         'y': 526
@@ -255,8 +273,8 @@ extensions:
         x: 384
         'y': 209
       is_keep_session:
-        x: 102
-        'y': 93
+        x: 224
+        'y': 26
         navigate:
           fdf9341b-072b-6cb6-06e3-1939bebeed2b:
             targetId: 44e88453-9627-7953-988b-05eb59d64832
@@ -267,12 +285,15 @@ extensions:
       is_files_to_delete:
         x: 822
         'y': 337
+      clone_workspace:
+        x: 38
+        'y': 203
       get_ws_id:
         x: 542
         'y': 209
       folder_diff:
-        x: 1090
-        'y': 207
+        x: 1083
+        'y': 214
       is_files_to_change:
         x: 467
         'y': 335
@@ -286,10 +307,10 @@ extensions:
         x: 648
         'y': 526
       create_file:
-        x: 272
-        'y': 528
+        x: 263
+        'y': 524
     results:
       SUCCESS:
         44e88453-9627-7953-988b-05eb59d64832:
-          x: 346
-          'y': 20
+          x: 459
+          'y': 109
