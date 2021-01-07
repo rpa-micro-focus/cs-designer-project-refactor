@@ -5,7 +5,7 @@
 #! @input ws_id: Workspace to be downloaded
 #! @input folder_path: Path where will be the files saved
 #!
-#! @output projects_details: List of projects with a list of flows/operations/properties the project consists of (as files)
+#! @output projects_files: List of projects with a list of flows/operations/properties the project consists of (as files)
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor._operations
@@ -82,7 +82,7 @@ flow:
           - SUCCESS: has_folders
           - FAILURE: on_failure
   outputs:
-    - projects_details: '${projects_details}'
+    - projects_files: '${projects_files}'
   results:
     - FAILURE
     - SUCCESS

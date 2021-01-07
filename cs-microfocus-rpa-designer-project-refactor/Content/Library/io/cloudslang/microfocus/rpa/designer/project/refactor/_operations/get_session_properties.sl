@@ -3,6 +3,8 @@
 #! @description: Retrives session properties.
 #!
 #! @output failure: Error message in case of failure
+#! @output properties: Properties belonging to the session
+#! @output ws_users: Users belonging to the session
 #!!#
 ########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor._operations

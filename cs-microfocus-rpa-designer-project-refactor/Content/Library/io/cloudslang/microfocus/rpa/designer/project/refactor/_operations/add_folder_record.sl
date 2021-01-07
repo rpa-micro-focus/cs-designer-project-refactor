@@ -1,5 +1,12 @@
 ########################################################################################################################
 #!!
+#! @description: Adds a new record to the list of folders.
+#!
+#! @input projects_files: List of project files and folders
+#! @input folder_path: Path of the new folder to be added
+#! @input folder_id: ID of the new folder to be added
+#!
+#! @output new_projects_files: List of project files and folders with the added record
 #! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################
@@ -17,7 +24,6 @@ operation:
           projects_files = eval(projects_files)
           projects_files[0].get('folders')[folder_path] = 'FOLDER:'+folder_id
           new_projects_files = json.dumps(projects_files)
-      #    new_projects_files = str(projects_files)
           failure = ''
       except Exception as e:
           failure =  ','.join([str(x) for x in sys.exc_info()])

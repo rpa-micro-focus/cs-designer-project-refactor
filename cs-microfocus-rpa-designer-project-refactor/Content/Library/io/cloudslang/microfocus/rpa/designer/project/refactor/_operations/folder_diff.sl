@@ -7,6 +7,9 @@
 #!               - list of all changed files (the ones present in both folders but having different content)
 #!               - list of all removed files (the ones that are missing from the workspace_folder)
 #!
+#! @input original_folder: Folder containing files before making changes
+#! @input workspace_folder: Folder containing files on which refactoring has been applied
+#!
 #! @output created_folders: List of folders missing from the original_folder
 #! @output deleted_folders: List of folders missing from the workspace_folder
 #! @output created_files: List of files missing from the original_folder

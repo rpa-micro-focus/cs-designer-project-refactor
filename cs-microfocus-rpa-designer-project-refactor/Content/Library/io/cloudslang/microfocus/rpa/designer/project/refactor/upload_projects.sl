@@ -11,6 +11,7 @@ flow:
   inputs:
     - session_token
     - keep_session:
+        default: 'false'
         required: false
   workflow:
     - get_session_properties:

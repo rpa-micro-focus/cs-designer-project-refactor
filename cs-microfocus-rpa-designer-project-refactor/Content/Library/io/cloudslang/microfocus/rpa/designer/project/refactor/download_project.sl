@@ -18,7 +18,7 @@ flow:
         required: false
     - ws_user
     - ws_password:
-        required: false
+        required: true
         sensitive: true
     - ws_tenant:
         required: false

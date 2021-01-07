@@ -2,6 +2,9 @@
 #!!
 #! @description: Adds or replace existing session properties.
 #!
+#! @input ws_user: Designer user
+#! @input ws_password: Designer user password
+#!
 #! @output failure: Error message in case of failure
 #!!#
 ########################################################################################################################

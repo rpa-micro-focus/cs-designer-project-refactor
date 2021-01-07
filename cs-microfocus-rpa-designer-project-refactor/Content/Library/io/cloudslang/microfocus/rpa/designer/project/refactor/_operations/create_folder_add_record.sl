@@ -1,3 +1,14 @@
+########################################################################################################################
+#!!
+#! @description: Creates a folder in the project and adds its ID to the existing folder list.
+#!
+#! @input token: Designer user token
+#! @input folder: Folder to be created in the project
+#! @input projects_files: List of project files and folders
+#!
+#! @output new_projects_files: List of project files and folders with the added record
+#!!#
+########################################################################################################################
 namespace: io.cloudslang.microfocus.rpa.designer.project.refactor._operations
 flow:
   name: create_folder_add_record
