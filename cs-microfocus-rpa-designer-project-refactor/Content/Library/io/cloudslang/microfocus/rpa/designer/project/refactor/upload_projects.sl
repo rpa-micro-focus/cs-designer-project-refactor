@@ -63,7 +63,7 @@ flow:
         do:
           io.cloudslang.microfocus.rpa.designer.authenticate.get_token:
             - ws_user: '${ws_user}'
-            - ws_password: '${ws_password}'
+            - ws_password: '${eval(properties).get(ws_user)}'
         publish:
           - token
         navigate:
