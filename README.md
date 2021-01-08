@@ -45,7 +45,7 @@ II. Refactoring (of all projects belonging to the session)
      - **move_folder** renames the folder to another folder thus changing the namespace of all the Flows/Operations/Activities under the original folder
      - **move_property_file** moves the file with System Properties to another folder thus changing the namespace of all System Properties in the file
      - **rename_property changes** name of one particular System Property (while keeping all the other)
-  5. Run any of the flow above as many times as needed
+  5. Run any of the flows above as many times as needed
      - all refactoring is done on all checked-out projects
      - all changes are made on the OO worker node local file system only
      - if your project is linked with a GIT repo, nothing is commited/pushed to the repo yet (you have still the choice of dropping your changes with no impact)
@@ -63,7 +63,7 @@ IV. Verify refactored projects
 ==============================
   7. Login to user workspace in Workflow Designer (or refresh the page in browser)
   8. Verify no content is red
-  9. (Mandatory) Debug your content to verify nothing got broken
+  9. **(Mandatory) Debug your content to verify nothing got broken**
       - repeat that for all refactored projects
   10. Commit / push your changes to the linked GIT repo
 
@@ -79,4 +79,4 @@ D. Limitations
   - tested only on WD generated projects (may not work on content written in CS using a text editor); e.g. imports do not work
   - project check-out and check-in may be a pretty slow operation (on the other hand, project refactoring is pretty fast operation!)
 	
-Please, let the author (mailto:petr.panuska@microfocus.com) know your feedback and if any of the limitations needs to be addressed!
+Please, let the author (petr.panuska@microfocus.com) know your feedback and if any of the limitations needs to be addressed!
