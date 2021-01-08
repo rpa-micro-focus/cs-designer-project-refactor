@@ -44,7 +44,7 @@ II. Refactoring (of all projects belonging to the session)
      - **move_file** renames the given Flow/Operation/Activity to another file (changing name) or folder (changing namespace) or both
      - **move_folder** renames the folder to another folder thus changing the namespace of all the Flows/Operations/Activities under the original folder
      - **move_property_file** moves the file with System Properties to another folder thus changing the namespace of all System Properties in the file
-     - **rename_property changes** name of one particular System Property (while keeping all the other)
+     - **rename_property** changes name of one particular System Property (while keeping all the other)
   5. Run any of the flows above as many times as needed
      - all refactoring is done on all checked-out projects
      - all changes are made on the OO worker node local file system only
