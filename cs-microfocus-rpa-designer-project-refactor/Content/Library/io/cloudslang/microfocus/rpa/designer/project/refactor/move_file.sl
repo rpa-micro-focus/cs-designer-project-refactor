@@ -15,9 +15,9 @@ namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
 flow:
   name: move_file
   inputs:
-    - session_token: 41edb
-    - old_name: io.cloudslang.microfocus.enterprise_server._operations.get_status
-    - new_name: io.cloudslang.microfocus.enterprise_server._operations.get_status2
+    - session_token
+    - old_name
+    - new_name
   workflow:
     - get_session_properties:
         do:

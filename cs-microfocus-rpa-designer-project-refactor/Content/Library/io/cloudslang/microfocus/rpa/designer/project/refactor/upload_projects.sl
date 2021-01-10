@@ -9,9 +9,8 @@ namespace: io.cloudslang.microfocus.rpa.designer.project.refactor
 flow:
   name: upload_projects
   inputs:
-    - session_token: 41edb
+    - session_token
     - keep_session:
-        default: 'false'
         required: false
   workflow:
     - get_session_properties:

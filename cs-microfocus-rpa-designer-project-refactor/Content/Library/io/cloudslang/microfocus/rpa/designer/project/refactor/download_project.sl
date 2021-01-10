@@ -16,9 +16,8 @@ flow:
   inputs:
     - session_token:
         required: false
-    - ws_user: esdev
+    - ws_user
     - ws_password:
-        default: Automation_123
         required: true
         sensitive: true
     - ws_tenant:
