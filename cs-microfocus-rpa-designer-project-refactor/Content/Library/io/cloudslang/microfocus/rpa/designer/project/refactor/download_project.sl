@@ -16,8 +16,9 @@ flow:
   inputs:
     - session_token:
         required: false
-    - ws_user
+    - ws_user: esdev
     - ws_password:
+        default: Automation_123
         required: true
         sensitive: true
     - ws_tenant:
@@ -30,33 +31,6 @@ flow:
         navigate:
           - IS_NULL: uuid_generator
           - IS_NOT_NULL: put_session_properties
-    - get_token:
-        do:
-          io.cloudslang.microfocus.rpa.designer.authenticate.get_token:
-            - ws_user: '${ws_user}'
-            - ws_password: '${ws_password}'
-            - ws_tenant: '${ws_tenant}'
-        publish:
-          - token
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: get_ws_id
-    - get_ws_id:
-        do:
-          io.cloudslang.microfocus.rpa.designer.workspace.get_ws_id: []
-        publish:
-          - ws_id
-        navigate:
-          - FAILURE: on_failure
-          - SUCCESS: download_projects_files
-    - clone_folder:
-        do:
-          io.cloudslang.base.filesystem.clone_folder:
-            - existing_folder: "${session_folder+'/original'}"
-            - cloned_folder: "${session_folder+'/workspace'}"
-        navigate:
-          - SUCCESS: SUCCESS
-          - FAILURE: on_failure
     - uuid_generator:
         do:
           io.cloudslang.base.utils.uuid_generator: []
@@ -71,20 +45,21 @@ flow:
             - ws_user: '${ws_user}'
             - ws_password: '${ws_password}'
         publish:
-          - session_folder: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token+'/'+ws_user}"
+          - session_folder: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token}"
         navigate:
-          - SUCCESS: get_token
+          - SUCCESS: synchronize_files
           - FAILURE: on_failure
-    - download_projects_files:
+    - synchronize_files:
         do:
-          io.cloudslang.microfocus.rpa.designer.project.refactor._operations.download_projects_files:
-            - ws_id: '${ws_id}'
-            - folder_path: "${session_folder+'/original'}"
-        publish:
-          - projects_details
+          io.cloudslang.microfocus.rpa.designer.project.refactor._operations.synchronize_files:
+            - action: DOWNLOAD
+            - ws_user: "${get('ws_user', get_sp('io.cloudslang.microfocus.rpa.rpa_username'))}"
+            - ws_password: "${get('ws_password', get_sp('io.cloudslang.microfocus.rpa.rpa_password'))}"
+            - ws_tenant: "${get('ws_tenant', get_sp('io.cloudslang.microfocus.rpa.idm_tenant'))}"
+            - session_folder: '${session_folder}'
         navigate:
+          - SUCCESS: SUCCESS
           - FAILURE: on_failure
-          - SUCCESS: clone_folder
   outputs:
     - new_session_token: '${session_token}'
   results:
@@ -96,30 +71,21 @@ extensions:
       is_token_given:
         x: 21
         'y': 96
-      get_token:
-        x: 299
-        'y': 89
-      get_ws_id:
-        x: 399
-        'y': 270
-      clone_folder:
-        x: 608
-        'y': 270
+      synchronize_files:
+        x: 183
+        'y': 95
         navigate:
-          1acbb6b9-86bf-ba05-0bfe-e5fe77dbe887:
+          c5b99190-60c4-dc92-c302-4b2b8e9c7653:
             targetId: d18a5abe-cad3-e570-25b6-4495b48a7331
             port: SUCCESS
-      uuid_generator:
-        x: 20
-        'y': 267
       put_session_properties:
         x: 183
         'y': 263
-      download_projects_files:
-        x: 522
-        'y': 104
+      uuid_generator:
+        x: 20
+        'y': 267
     results:
       SUCCESS:
         d18a5abe-cad3-e570-25b6-4495b48a7331:
-          x: 733
-          'y': 105
+          x: 377
+          'y': 102

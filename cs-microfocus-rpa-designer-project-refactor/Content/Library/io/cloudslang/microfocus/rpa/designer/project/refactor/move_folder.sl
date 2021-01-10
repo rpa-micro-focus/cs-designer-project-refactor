@@ -13,9 +13,10 @@ flow:
   name: move_folder
   inputs:
     - session_token:
+        default: 41edb
         required: true
-    - old_namespace
-    - new_namespace
+    - old_namespace: io.cloudslang.microfocus.enterprise_server._operations.low_level
+    - new_namespace: io.cloudslang.microfocus.enterprise_server._operations.low_level2
   workflow:
     - get_session_properties:
         do:
