@@ -36,7 +36,7 @@ flow:
     - is_keep_session:
         do:
           io.cloudslang.base.utils.is_true:
-            - bool_value: '${keep_session}'
+            - bool_value: "${get('keep_session', 'false')}"
         navigate:
           - 'TRUE': SUCCESS
           - 'FALSE': delete_session_properties
