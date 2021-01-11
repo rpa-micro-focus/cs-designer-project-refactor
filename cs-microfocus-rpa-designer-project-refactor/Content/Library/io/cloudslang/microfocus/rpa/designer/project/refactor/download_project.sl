@@ -18,7 +18,7 @@ flow:
         required: false
     - ws_user
     - ws_password:
-        required: true
+        required: false
         sensitive: true
     - ws_tenant:
         required: false
@@ -42,7 +42,7 @@ flow:
           io.cloudslang.microfocus.rpa.designer.project.refactor._operations.put_session_properties:
             - session_token: '${session_token}'
             - ws_user: '${ws_user}'
-            - ws_password: '${ws_password}'
+            - ws_password: "${get('ws_password', get_sp('io.cloudslang.microfocus.rpa.rpa_password'))}"
         publish:
           - session_folder: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/'+session_token}"
         navigate:

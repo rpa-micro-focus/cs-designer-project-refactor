@@ -16,6 +16,7 @@ operation:
     - ws_user
     - ws_password:
         required: false
+        sensitive: true
     - properties_file:
         private: true
         default: "${get_sp('io.cloudslang.microfocus.rpa.designer.project.refactor.storage_root')+'/session.properties'}"
